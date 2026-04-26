@@ -1,0 +1,79 @@
+@model StudentDashboardViewModel
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="h3 mb-1">Student Dashboard</h1>
+        <div class="text-muted">Your simple course overview.</div>
+    </div>
+    <span class="badge bg-primary fs-6">@Model.UnreadMessages unread messages</span>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="border rounded p-3 h-100">
+            <h2 class="h5 mb-3">Enrolled Courses</h2>
+            @if (Model.EnrolledCourses.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Course</th>
+                                <th>Lecturer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in Model.EnrolledCourses)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@course.Code</td>
+                                    <td>@course.Name</td>
+                                    <td>@course.Lecturer</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">No courses enrolled yet.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="border rounded p-3 h-100">
+            <h2 class="h5 mb-3">Upcoming Deadlines</h2>
+            @if (Model.UpcomingDeadlines.Any())
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var deadline in Model.UpcomingDeadlines)
+                    {
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between gap-3">
+                                <div>
+                                    <div class="fw-semibold">@deadline.Title</div>
+                                    <div class="small text-muted">@deadline.CourseCode</div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="small">@deadline.DueDateUtc.ToLocalTime().ToString("dd MMM yyyy")</div>
+                                    <span class="badge bg-secondary">@deadline.Status</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">No upcoming deadlines.</p>
+            }
+        </div>
+    </div>
+</div>
